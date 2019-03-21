@@ -1,0 +1,54 @@
+<div class="card">
+  <div class="card-header">
+    {{pageTitle}}
+  </div>
+  <div *ngIf='errorMessage$ | async as errorMessage' class="error">
+    {{errorMessage}}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-2">
+        Filter By:
+      </div>
+      <div class="col-md-4">
+        <input type="text" [(ngModel)]='filterby' />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Filtered By: {{filterby}}</h5>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table" *ngIf='filterProduct && filterProduct.length'>
+        <thead>
+          <tr>
+            <th>
+              <button class="btn btn-primary" (click)='onShowImage()'>
+                {{showImage ? 'Hide' : 'Show'}} Image
+              </button>
+            </th>
+            <th>Product</th>
+            <th>Code</th>
+            <th>Available</th>
+            <th>Price</th>
+            <th>5 Star Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let item of filterProduct'>
+            <td>
+              <img *ngIf='showImage' [src]='item.image' [style.width.px]='imageWidth' [style.height.px]='imageWidth' [style.margin.px]='imgMargin' /></td>
+            <td><a [routerLink]="['/product',item.id]">{{item.name}}</a></td>
+            <td>{{item.code}}</td>
+            <td>{{item.date}}</td>
+            <td>{{item.price | currency:'USD':'symbol':'1.2-2'}}</td>
+            <td><app-star [rate]='item.rating' (ratingClicked)='onRatingClicked($event)'></app-star></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
